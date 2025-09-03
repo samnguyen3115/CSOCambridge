@@ -77,11 +77,15 @@
     Mystic Daily Boating Advisory.
   </p>
   <img
-    <div id="cso-map" style="height: 500px; width: 100%; max-width: 1100px; margin: 0 auto; border-radius: 8px; border: 1px solid #ccc;"></div>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
+    src="https://www.cambridgema.gov/-/media/Files/publicworksdepartment/stormwatermanagement/alertnotice/csonotifications/csomap.png"
+    alt="CSO Map"
+    style="max-width: 100%; height: auto;"
+  />
+  <div id="cso-map" style="height: 500px; width: 100%; max-width: 1100px; margin: 0 auto; border-radius: 8px; border: 1px solid #ccc;"></div>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
         var map = L.map('cso-map').setView([42.3736, -71.1097], 13); // Centered on Cambridge
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
           attribution: 'Map data © <a href="https://openstreetmap.org">OpenStreetMap</a> contributors',
