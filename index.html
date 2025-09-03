@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>City of Cambridge — Combined Sewer Overflow (CSO) Reporting</title>
+
+    <!-- Google font (close to many municipal sites) -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="replica-styles.css" />
+  </head>
+  <br />
+  <br class="container" />
+  <h1>COMBINED SEWER OVERFLOW REPORTING</h1>
+  <div class="alert">
+    State regulations (<a
+      href="https://www.mass.gov/doc/314-cmr-1600-notification-requirements-to-promote-public-awareness-of-sewage-pollution-1/download"
+      >314 CMR 16.00</a
+    >) require the City of Cambridge to notify the public when certain events
+    occur that result in untreated wastewater being released into surface
+    water--a river or stream. Notifications are posted below and also sent out
+    via email. All Data are preliminary and subject to change.
+    <a href="https://www.cambridgema.gov/Subscribe"
+      >Subscribe to Cambridge's Combined Sewer Overflow (CSO) Alerts.</a
+    >
+  </div>
+  <h2>City of Cambridge Public Notification Plan</h2>
+  <p>
+    The City of Cambridge submitted to the Massachusetts Department of
+    Environmental Protection (MassDEP) a Public Notification Plan describing how
+    it will comply with the requirements of An Act Promoting Awareness of Sewage
+    in Public Waters, signed into law in 2021.
+    <a
+      href="https://www.cambridgema.gov/-/media/Files/publicworksdepartment/stormwatermanagement/alertnotice/csonotifications/cambridgecsofinalnotificationplanapproval.pdf"
+      >MassDEP issued an approval</a
+    >
+    of Cambridge's Public Notification Plan on June 16, 2023. The
+    <a
+      href="https://www.cambridgema.gov/-/media/Files/publicworksdepartment/stormwatermanagement/alertnotice/csonotifications/cambridgema0101974finalcsonotificationplanwattachmentrev061623.pdf"
+      >Cambridge Public Notification Plan</a
+    >
+    was modified to reflect reporting of the "average" discharge (not "median"
+    discharge) from data reported to MassDEP and EPA for the prior three years.
+  </p>
+  <h2>Public Health Notifications</h2>
+  <p>
+    State regulations require local public health departments to provide notice
+    to the public when these discharges may create a risk to public health,
+    including when a discharge lasts for two or more hours. Public health
+    warnings related to sewage discharges will be posted on the
+    <a href="https://www.cambridgepublichealth.org/news/"
+      >Cambridge Public Health Departments News & Events webpage</a
+    >.<br /><br />Public health officials recommend avoiding contact with water
+    bodies during rainstorms and for 48 hours afterwards, as there may be
+    increased health risks due to bacteria or other pollutants associated with
+    urban stormwater runoff and CSO discharges. To see what Cambridge is doing
+    to address pollutants from stormwater runoff please visit our
+    <a
+      href="https://www.cambridgema.gov/Departments/publicworks/Initiatives/stormwatermanagement"
+      >stormwater management</a
+    >
+    website and learn how you can also help reduce stormwater pollution. For
+    more information on water quality data in the Charles River and the Mystic
+    River please see:
+    <a href="https://www.crwa.org/water-quality-data"
+      >Charles River Watershed Association</a
+    >
+    Water quality Reports & Data and the
+    <a href="https://mysticriver.org/boatingadvisory"
+      >Mystic River Watershed Association</a
+    >
+    Mystic Daily Boating Advisory.
+  </p>
+  <img
+    <div id="cso-map" style="height: 500px; width: 100%; max-width: 1100px; margin: 0 auto; border-radius: 8px; border: 1px solid #ccc;"></div>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        var map = L.map('cso-map').setView([42.3736, -71.1097], 13); // Centered on Cambridge
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: 'Map data © <a href="https://openstreetmap.org">OpenStreetMap</a> contributors',
+          maxZoom: 18,
+        }).addTo(map);
+        var csoLocations = [
+          {
+            name: 'CAM001',
+            desc: 'Alewife Brook, downstream of Mass Ave Bridge across from Murry Hill Road',
+            lat: 42.3932, lon: -71.1420
+          },
+          {
+            name: 'CAM002',
+            desc: 'Alewife Brook, downstream of Mass Ave Bridge',
+            lat: 42.3930, lon: -71.1400
+          },
+          {
+            name: 'CAM401A',
+            desc: 'Alewife Brook, upstream of Little River and Rt. 2 Bridge',
+            lat: 42.3955, lon: -71.1460
+          },
+          {
+            name: 'CAM401B',
+            desc: 'Alewife Brook, upstream of Mass Ave Bridge',
+            lat: 42.3925, lon: -71.1390
+          },
+          {
+            name: 'CAM005',
+            desc: 'Charles River, downstream of Eliot Bridge across from Mount Auburn Hospital',
+            lat: 42.3720, lon: -71.1260
+          },
+          {
+            name: 'CAM007',
+            desc: 'Charles River, downstream of Eliot Bridge across from Hawthorne Street',
+            lat: 42.3700, lon: -71.1230
+          },
+          {
+            name: 'CAM009',
+            desc: 'Charles River, upstream of Anderson Bridge (temporarily closed)',
+            lat: 42.3725, lon: -71.1200
+          },
+          {
+            name: 'CAM011',
+            desc: 'Charles River, upstream of Weeks Footbridge (temporarily closed)',
+            lat: 42.3705, lon: -71.1170
+          },
+          {
+            name: 'CAM017',
+            desc: 'Charles River, downstream of Longfellow Bridge across from Front Park',
+            lat: 42.3620, lon: -71.0720
+          }
+        ];
+        csoLocations.forEach(function(loc) {
+          L.marker([loc.lat, loc.lon]).addTo(map)
+            .bindPopup('<strong>' + loc.name + '</strong><br>' + loc.desc);
+        });
+      });
+    </script>
+  <p>
+    To view a full-size version of this map,
+    <a
+      href="https://www.cambridgema.gov/-/media/Files/publicworksdepartment/stormwatermanagement/CSOlocations.pdf"
+      >click here</a
+    >.
+  </p>
+  <h2>Description of CSO Locations and Potentially Affected Areas</h2>
+  <ul>
+    <li>
+      <strong>CAM001:</strong> Alewife Brook, discharges downstream of
+      Massachusetts Ave Bridge across from Murry Hill Road.
+    </li>
+    <li>
+      <strong>CAM002:</strong> Alewife Brook, discharges downstream of
+      Massachusetts Ave Bridge.
+    </li>
+    <li>
+      <strong>CAM401A:</strong> Alewife Brook, discharges upstream of the
+      confluence with the Little River and upstream of the Route 2 Bridge.
+    </li>
+    <li>
+      <strong>CAM401B:</strong> Alewife Brook, discharges upstream of the
+      Massachusetts Ave Bridge.
+    </li>
+    <li>
+      <strong>CAM005:</strong> Charles River, discharges downstream of the Eliot
+      Bridge across from Mount Auburn Hospital.
+    </li>
+    <li>
+      <strong>CAM007:</strong> Charles River, discharges downstream of the Eliot
+      Bridge across from Hawthorne Street.
+    </li>
+    <li>
+      <strong>CAM009:</strong> Charles River, discharges upstream of the
+      Anderson Bridge (temporarily closed).
+    </li>
+    <li>
+      <strong>CAM011:</strong> Charles River, discharges upstream of the Weeks
+      Footbridge (temporarily closed).
+    </li>
+    <li>
+      <strong>CAM017:</strong> Charles River, discharges downstream of the
+      Longfellow Bridge across from Front Park.
+    </li>
+  </ul>
+  <p style="font-size: 1.08rem; max-width: 1100px; margin: 32px auto 8px auto">
+    <strong>Note:</strong> The CSO discharge table below provides details of
+    recent discharges. Data for CSOs is preliminary and subject to change.
+    Discharge duration and volume are estimates and are subject to calculation
+    limitations, including meter data reliability, unmonitored downstream
+    conditions such as river level, and MWRA system operations. See the
+    following links for information on past CSO
+    <a
+      href="https://www.cambridgema.gov/Departments/publicworks/Initiatives/csoannualreports"
+      >annual reporting</a
+    >
+    and yearly
+    <a
+      href="https://www.cambridgema.gov/Departments/publicworks/Initiatives/csoactivations"
+      >CSO discharge summaries</a
+    >. Annual reporting data for each calendar year will be published by April
+    30 of the following year. Updated/revised data is indicated by ( ).
+  </p>
+  <h3
+    style="
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-top: 24px;
+      margin-bottom: 8px;
+      max-width: 1100px;
+      margin-left: auto;
+      margin-right: auto;
+    "
+  >
+    2025 CSO Activation Table
+  </h3>
+  <div class="table-wrapper" style="max-width: 1100px; margin: 0 auto">
+    <table>
+      <thead>
+        <tr style="background: #e3eaf3">
+          <th>Event Date</th>
+          <th>CSO Number</th>
+          <th>Outfall Location</th>
+          <th>Potentially Affected Area</th>
+          <th>Start Time</th>
+          <th>Stop Time</th>
+          <th>Duration</th>
+          <th>Volume (million gallons)</th>
+          <th>Event Rainfall (inches)</th>
+          <th>Notice</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>08.29.2025</td>
+          <td>CAM401A</td>
+          <td>Alewife Brook</td>
+          <td>
+            Upstream of the confluence with Little River and upstream of Rt. 2
+            Bridge
+          </td>
+          <td>2:45 pm</td>
+          <td>3:20 pm</td>
+          <td>35 minutes</td>
+          <td>0.75 MG (estimated average of last three years)</td>
+          <td>TBD</td>
+          <td>Alert 1</td>
+        </tr>
+        <tr>
+          <td>08.14.2025</td>
+          <td>CAM005</td>
+          <td>Charles River</td>
+          <td>
+            Downstream of the Elliot Bridge across from Mount Auburn Hospital
+          </td>
+          <td>6:50 pm</td>
+          <td>7:05 pm</td>
+          <td>15 minutes</td>
+          <td>0.12 MG (estimated average of last three years)</td>
+          <td>TBD</td>
+          <td>Alert 1</td>
+        </tr>
+        <tr>
+          <td>08.14.2025</td>
+          <td>CAM401A</td>
+          <td>Alewife Brook</td>
+          <td>
+            Upstream of the confluence with Little River and upstream of Rt. 2
+            Bridge
+          </td>
+          <td>6:40 pm</td>
+          <td>7:05 pm</td>
+          <td>25 minutes</td>
+          <td>0.75 MG (estimated average of last three years)</td>
+          <td>TBD</td>
+          <td>Alert 1</td>
+        </tr>
+            <tr>
+              <td>12.30.2024</td>
+              <td>CAM401A</td>
+              <td>Alewife Brook</td>
+              <td>Upstream of the confluence with Little River and upstream of the Route 2 Bridge</td>
+              <td>8:27 am<br>(8:30 am)</td>
+              <td>8:37 am<br>(8:45 am)</td>
+              <td>10 minutes<br>(15 minutes)</td>
+              <td>0.89 MG (estimated average of last three years)<br>(0.01 MG)</td>
+              <td>0.50"</td>
+              <td>Alert</td>
+            </tr>
+            <tr>
+              <td>12.11.2024</td>
+              <td>CAM401A</td>
+              <td>Alewife Brook</td>
+              <td>Upstream of the confluence with Little River and upstream of the Route 2 Bridge</td>
+              <td>2:37 pm<br>(2:45 pm)<br>4:37 pm<br>(4:45 pm)<br>6:25 pm<br>(6:30 pm)</td>
+              <td>2:42 pm<br>(3:00 pm)<br>5:02 pm<br>(5:15 pm)<br>7:07 pm<br>(7:15 pm)</td>
+              <td>72 minutes<br>(1 hour, 30 minutes)</td>
+              <td>0.89 MG (estimated average of last three years)<br>(0.56 MG)</td>
+              <td>2.19"</td>
+              <td>Alert 1<br>Alert 2</td>
+            </tr>
+            <tr>
+              <td>08.18.2024<br>(Revised)</td>
+              <td>CAM401A</td>
+              <td>Alewife Brook</td>
+              <td>Upstream of the confluence with Little River and upstream of the Route 2 Bridge</td>
+              <td>7:52 am<br>(8:18 am)</td>
+              <td>8:18 am<br>(8:28 am)</td>
+              <td>26 minutes<br>(10 minutes)</td>
+              <td>0.89 MG (estimated average of last three years)<br>(&lt;0.01 MG)</td>
+              <td>0.30"</td>
+              <td>Alert</td>
+            </tr>
+            <tr>
+              <td>08.15.2024<br>(Revised)</td>
+              <td>CAM401A</td>
+              <td>Alewife Brook</td>
+              <td>Upstream of the confluence with Little River and upstream of the Route 2 Bridge</td>
+              <td>4:38 pm<br>(4:45 pm)</td>
+              <td>4:56 pm<br>(5:15 pm)</td>
+              <td>18 minutes<br>(30 Minutes)</td>
+              <td>0.89 MG (estimated average of last three years)<br>(0.02 MG)</td>
+              <td>0.21"</td>
+              <td>Alert</td>
+            </tr>
+            <tr>
+              <td>08.04.2024<br>(Revised)</td>
+              <td>CAM401A</td>
+              <td>Alewife Brook</td>
+              <td>Upstream of the confluence with Little River and upstream of the Route 2 Bridge</td>
+              <td>5:08 pm<br>(5:15 pm)</td>
+              <td>5:23 pm<br>(5:45 pm)</td>
+              <td>15 minutes<br>(30 minutes)</td>
+              <td>0.89 MG (estimated average of last three years)<br>(0.15 MG)</td>
+              <td>0.62"</td>
+              <td>Alert 1<br>Alert 2</td>
+            </tr>
+            <tr>
+              <td>07.31.2024<br>(Revised)</td>
+              <td>CAM401A</td>
+              <td>Alewife Brook</td>
+              <td>Upstream of the confluence with Little River and upstream of the Route 2 Bridge</td>
+              <td>11:57 am<br>(12:00 pm)</td>
+              <td>12:22 pm<br>(12:30 pm)</td>
+              <td>25 minutes<br>(30 minutes)</td>
+              <td>0.89 MG (estimated average of last three years)<br>(0.83 MG)</td>
+              <td>0.53"</td>
+              <td>Alert</td>
+            </tr>
+            <tr>
+              <td>07.31.2024<br>(Revised)<br>&lt;year end update&gt;</td>
+              <td>CAM005<br>&lt;year end data update&gt;</td>
+              <td>Charles River</td>
+              <td>Downstream of thee Elliot Bridge across from mount Auburn Hospital</td>
+              <td>11:53 am<br>(11:45 am)<br>&lt;12:15 pm&gt;</td>
+              <td>12:13 pm<br>(12:15 pm)<br>&lt;12:30 pm&gt;</td>
+              <td>20 minutes<br>(30 minutes)<br>&lt;15 minutes&gt;</td>
+              <td>0.21 MG (estimated average of last three years)<br>(0.01 MG)<br>&lt;0.03 MG&gt;</td>
+              <td>0.53"</td>
+              <td>Alert</td>
+            </tr>
+            <!-- Add more rows here as needed -->
+          </td>
+          <td>1.65</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>07.25.2025</td>
+          <td>CAM401A</td>
+          <td>Alewife Brook</td>
+          <td>
+            Upstream of the confluence with Little River and upstream of Rt. 2
+            Bridge
+          </td>
+          <td>3:10 pm<br />(3:00 pm)</td>
+          <td>3:15 pm<br />(3:10 pm)</td>
+          <td>5 minutes<br />(10 minutes)</td>
+          <td>
+            0.75 MG (estimated average of last three years)<br />(0.05 MG)
+          </td>
+          <td>0.41</td>
+          <td>Alert 1</td>
+        </tr>
+        <tr>
+          <td>07.25.2025</td>
+          <td>CAM005</td>
+          <td>Charles River</td>
+          <td>
+            Downstream of the Elliot Bridge across from Mount Auburn Hospital
+          </td>
+          <td>3:05 pm<br />(3:00 pm)</td>
+          <td>3:20 pm<br />(3:15 pm)</td>
+          <td>15 minutes<br />(15 minutes)</td>
+          <td>
+            0.12 MG (estimated average of last three years)<br />(0.07 MG)
+          </td>
+          <td>0.41</td>
+          <td>Alert 1</td>
+        </tr>
+        <tr>
+          <td>07.20.2025</td>
+          <td>CAM005</td>
+          <td>Charles River</td>
+          <td>
+            Downstream of the Elliot Bridge across from Mount Auburn Hospital
+          </td>
+          <td>7:59 pm<br />(7:45 pm)</td>
+          <td>8:10 pm<br />(8:15 pm)</td>
+          <td>11 minutes<br />(30 minutes)</td>
+          <td>
+            0.12 MG (estimated average of last three years)<br />(0.17 MG)
+          </td>
+          <td>0.42</td>
+          <td>Alert 1</td>
+        </tr>
+        <tr>
+          <td>07.20.2025</td>
+          <td>CAM401A</td>
+          <td>Alewife Brook</td>
+          <td>
+            Upstream of the confluence with Little River and upstream of Rt. 2
+            Bridge
+          </td>
+          <td>7:52 pm<br />(7:45 pm)</td>
+          <td>7:59 pm<br />(8:00 pm)</td>
+          <td>7 minutes<br />(15 minutes)</td>
+          <td>
+            0.75 MG (estimated average of last three years)<br />(0.08 MG)
+          </td>
+          <td>0.42</td>
+          <td>Alert 1</td>
+        </tr>
+        <tr>
+          <td>07.08.2025</td>
+          <td>CAM401A</td>
+          <td>Alewife Brook</td>
+          <td>
+            Upstream of the confluence with Little River and upstream of Rt. 2
+            Bridge
+          </td>
+          <td>11:24 pm<br />(11:15 pm)</td>
+          <td>11:34 pm<br />(11:20 pm)</td>
+          <td>10 minutes<br />(5 minutes)</td>
+          <td>0.75 MG (estimated average of last three years)<br />0.01 MG)</td>
+          <td>0.96</td>
+          <td>Alert 1<br />Alert 2</td>
+        </tr>
+        <tr>
+          <td>06.07.2025</td>
+          <td>CAM401A</td>
+          <td>Alewife Brook</td>
+          <td>
+            Upstream of the confluence with Little River and upstream of the
+            Route 2 Bridge
+          </td>
+          <td>5:23 pm<br />(5:30 pm)</td>
+          <td>6:03 pm<br />(6 pm)</td>
+          <td>40 minutes<br />(30 minutes)</td>
+          <td>
+            0.75 MG (estimated average of last three years)<br />(0.33 MG)
+          </td>
+          <td>1.01</td>
+          <td>Alert 1</td>
+        </tr>
+        <tr>
+          <td>05.22.2025</td>
+          <td>CAM401A</td>
+          <td>Alewife Brook</td>
+          <td>
+            Upstream of the confluence with Little River and upstream of the
+            Route 2 Bridge
+          </td>
+          <td>6:38 pm<br />(7:00 pm)</td>
+          <td>1:08 am on 05.23.2025<br />(1:15 am)</td>
+          <td>3.25 hours</td>
+          <td>
+            0.75 MG (estimated average of last three years)<br />(1.35 MG)
+          </td>
+          <td>3.14</td>
+          <td>Alert 1<br />Alert 2</td>
+        </tr>
+        <tr>
+          <td>05.06.2025</td>
+          <td>CAM401A</td>
+          <td>Alewife Brook</td>
+          <td>
+            Upstream of the confluence with Little River and upstream of the
+            Route 2 Bridge
+          </td>
+          <td>6:13 pm<br />(6:15 pm)</td>
+          <td>6:33 pm<br />(6:30 pm)</td>
+          <td>20 minutes<br />(15 minutes)</td>
+          <td>
+            0.75 MG (estimated average of last three years)<br />(0.16 MG)
+          </td>
+          <td>1.37</td>
+          <td>Alert 1</td>
+        </tr>
+        <tr>
+          <td>04.01.2025</td>
+          <td>CAM401A</td>
+          <td>Alewife Brook</td>
+          <td>
+            Upstream of the confluence with Little River and upstream of the
+            Route 2 Bridge
+          </td>
+          <td>12:38 am<br />(12:45 am)</td>
+          <td>1:03 am<br />(1:15 am)</td>
+          <td>23 minutes<br />(30 minutes)</td>
+          <td>
+            0.75 MG (estimated average of last three years)<br />(0.35 MG)
+          </td>
+          <td>0.68</td>
+          <td>Alert 1<br />Alert 2</td>
+        </tr>
+        <tr>
+          <td>03.17.2025</td>
+          <td>CAM005</td>
+          <td>Charles River</td>
+          <td>
+            Downstream of the Elliot Bridge across from Mount Auburn Hospital
+          </td>
+          <td>4:13 am<br />(4:30 am)</td>
+          <td>4:30 am<br />(4:45 am)</td>
+          <td>17 minutes<br />(15 minutes)</td>
+          <td>
+            0.12 MG (estimated average of last three years)<br />(0.01 MG)
+          </td>
+          <td>1.37</td>
+          <td>Alert 1<br />Alert 2</td>
+        </tr>
+        <tr>
+          <td>03.17.2025</td>
+          <td>CAM401A</td>
+          <td>Alewife Brook</td>
+          <td>
+            Upstream of the confluence with Little River and upstream of the
+            Route 2 Bridge
+          </td>
+          <td>3:53 am<br />(4:00 am)</td>
+          <td>4:53 am<br />(4:45 am)</td>
+          <td>60 minutes<br />(45 minutes)</td>
+          <td>
+            0.75 MG (estimated average of last three years)<br />(1.02 MG)
+          </td>
+          <td>1.37</td>
+          <td>Alert 1<br />Alert 2</td>
+        </tr>
+        <tr>
+          <td>03.06.2025</td>
+          <td>CAM401A</td>
+          <td>Alewife Brook</td>
+          <td>
+            Upstream of the confluence with Little River and upstream of the
+            Route 2 Bridge
+          </td>
+          <td>3:22 am<br />and<br />3:57 am<br />(4:14 am)</td>
+          <td>3:28 am<br />and<br />4:38 am<br />(4:45 am)</td>
+          <td>47 minutes<br />(30 minutes)</td>
+          <td>
+            0.75 MG (estimated average of last three years)<br />(0.10 MG)
+          </td>
+          <td>1.04</td>
+          <td>Alert1<br />Alert2</td>
+        </tr>
+        <tr>
+          <td>01.01.2025<br />(Revised)</td>
+          <td>CAM401A</td>
+          <td>Alewife Brook</td>
+          <td>
+            Upstream of the confluence with Little River and upstream of the
+            Route 2 Bridge
+          </td>
+          <td>3:07 am<br />(3:15 am)</td>
+          <td>3:42 am<br />(3:30 am)</td>
+          <td>35 minutes<br />(15 minutes)</td>
+          <td>
+            0.89 MG (estimated average of last three years)<br />(0.04 MG)
+          </td>
+          <td>0.74</td>
+          <td>Alert</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <br />
+  <h3
+    style="
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-top: 32px;
+      margin-bottom: 8px;
+      max-width: 1100px;
+      margin-left: auto;
+      margin-right: auto;
+    "
+  >
+    Prior CSO Activations
+  </h3>
+
+  <div class="table-wrapper" style="max-width: 1100px; margin: 0 auto">
+    <table>
+      <thead>
+        <tr style="background: #e3eaf3">
+          <th>Event Date</th>
+          <th>CSO Number</th>
+          <th>Outfall Location</th>
+          <th>Potentially Affected Area</th>
+          <th>Start Time</th>
+          <th>Stop Time</th>
+          <th>Duration</th>
+          <th>Volume (million gallons)</th>
+          <th>Event Rainfall (inches)</th>
+          <th>Notice</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>12.30.2024</td>
+          <td>CAM401A</td>
+          <td>Alewife Brook</td>
+          <td>Upstream of the confluence with Little River and upstream of the Route 2 Bridge</td>
+          <td>8:27 am<br>(8:30 am)</td>
+          <td>8:37 am<br>(8:45 am)</td>
+          <td>10 minutes<br>(15 minutes)</td>
+          <td>0.89 MG (estimated average of last three years)<br>(0.01 MG)</td>
+          <td>0.50"</td>
+          <td>Alert</td>
+        </tr>
+        <tr>
+          <td>12.11.2024</td>
+          <td>CAM401A</td>
+          <td>Alewife Brook</td>
+          <td>Upstream of the confluence with Little River and upstream of the Route 2 Bridge</td>
+          <td>2:37 pm<br>(2:45 pm)<br>4:37 pm<br>(4:45 pm)<br>6:25 pm<br>(6:30 pm)</td>
+          <td>2:42 pm<br>(3:00 pm)<br>5:02 pm<br>(5:15 pm)<br>7:07 pm<br>(7:15 pm)</td>
+          <td>72 minutes<br>(1 hour, 30 minutes)</td>
+          <td>0.89 MG (estimated average of last three years)<br>(0.56 MG)</td>
+          <td>2.19"</td>
+          <td>Alert 1<br>Alert 2</td>
+        </tr>
+        <tr>
+          <td>08.18.2024<br>(Revised)</td>
+          <td>CAM401A</td>
+          <td>Alewife Brook</td>
+          <td>Upstream of the confluence with Little River and upstream of the Route 2 Bridge</td>
+          <td>7:52 am<br>(8:18 am)</td>
+          <td>8:18 am<br>(8:28 am)</td>
+          <td>26 minutes<br>(10 minutes)</td>
+          <td>0.89 MG (estimated average of last three years)<br>(&lt;0.01 MG)</td>
+          <td>0.30"</td>
+          <td>Alert</td>
+        </tr>
+        <tr>
+          <td>08.15.2024<br>(Revised)</td>
+          <td>CAM401A</td>
+          <td>Alewife Brook</td>
+          <td>Upstream of the confluence with Little River and upstream of the Route 2 Bridge</td>
+          <td>4:38 pm<br>(4:45 pm)</td>
+          <td>4:56 pm<br>(5:15 pm)</td>
+          <td>18 minutes<br>(30 Minutes)</td>
+          <td>0.89 MG (estimated average of last three years)<br>(0.02 MG)</td>
+          <td>0.21"</td>
+          <td>Alert</td>
+        </tr>
+        <tr>
+          <td>08.04.2024<br>(Revised)</td>
+          <td>CAM401A</td>
+          <td>Alewife Brook</td>
+          <td>Upstream of the confluence with Little River and upstream of the Route 2 Bridge</td>
+          <td>5:08 pm<br>(5:15 pm)</td>
+          <td>5:23 pm<br>(5:45 pm)</td>
+          <td>15 minutes<br>(30 minutes)</td>
+          <td>0.89 MG (estimated average of last three years)<br>(0.15 MG)</td>
+          <td>0.62"</td>
+          <td>Alert 1<br>Alert 2</td>
+        </tr>
+        <tr>
+          <td>07.31.2024<br>(Revised)</td>
+          <td>CAM401A</td>
+          <td>Alewife Brook</td>
+          <td>Upstream of the confluence with Little River and upstream of the Route 2 Bridge</td>
+          <td>11:57 am<br>(12:00 pm)</td>
+          <td>12:22 pm<br>(12:30 pm)</td>
+          <td>25 minutes<br>(30 minutes)</td>
+          <td>0.89 MG (estimated average of last three years)<br>(0.83 MG)</td>
+          <td>0.53"</td>
+          <td>Alert</td>
+        </tr>
+        <tr>
+          <td>07.31.2024<br>(Revised)<br>&lt;year end update&gt;</td>
+          <td>CAM005<br>&lt;year end data update&gt;</td>
+          <td>Charles River</td>
+          <td>Downstream of thee Elliot Bridge across from mount Auburn Hospital</td>
+          <td>11:53 am<br>(11:45 am)<br>&lt;12:15 pm&gt;</td>
+          <td>12:13 pm<br>(12:15 pm)<br>&lt;12:30 pm&gt;</td>
+          <td>20 minutes<br>(30 minutes)<br>&lt;15 minutes&gt;</td>
+          <td>0.21 MG (estimated average of last three years)<br>(0.01 MG)<br>&lt;0.03 MG&gt;</td>
+          <td>0.53"</td>
+          <td>Alert</td>
+        </tr>
+        <!-- More rows from your dataset should be added here in the same format -->
+      </tbody>
+    </table>
+  </div>
+  <br />
+  <br />
+</html>
