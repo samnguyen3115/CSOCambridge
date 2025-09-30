@@ -1,0 +1,431 @@
+/* Cambridge CSO Website Styles */
+.container {
+  max-width: 100%;
+  font-family: "alternate-gothic-no-3-d", "aktiv-grotesk", Arial, sans-serif;
+  line-height: 1.6;
+  color: #333;
+}
+p {
+  font-size: 18.6667px;
+  font-family: "Aktiv Grotesk Regular", "alternate-gothic-no-3-d", "Inter", Arial, sans-serif;
+  line-height: 28px;
+  color: #312c28;
+  --fa-style-family-classic: "Font Awesome 6 Free";
+  --fa-font-solid: normal 900 1em / 1 "Font Awesome 6 Free";
+}
+h1 {
+  color: #b98f00;
+  font-size: 56px;
+  font-weight: 400;
+  text-align: left;
+  margin-bottom: -3rem;
+  margin-top: 1rem;
+  font-family: "AlternateGotNo3D";
+  line-height: 1em;
+}
+
+
+
+
+
+h2 a {
+  color: #0071bc;
+}
+h2 {
+  color: #000000;
+  font-size: 56px;
+  font-family: "AlternateGotNo3D", "alternate-gothic-no-3-d", sans-serif;
+  line-height: 56px;
+  font-weight: 400;
+  text-transform: none;
+  --webkit-text-size-adjust: 100%;
+  --fa-style-family-classic: "Font Awesome 6 Free";
+  --fa-font-solid: normal 900 1em / 1 "Font Awesome 6 Free";
+  --fa-font-regular: normal 400 1em / 1 "Font Awesome 6 Free";
+  --fa-font-regular: normal 400 1em / 1 "Font Awesome 6 Free";
+  --fa-style-family-brands: "Font Awesome 6 Brands";
+  --fa-font-brands: normal 400 1em / 1 "Font Awesome 6 Brands";
+  margin-top: 0px;  
+}
+
+.cso-intro,
+.cso-action,
+.cso-completed,
+.sewer-systems,
+.health-info,
+.cso-reporting,
+.useful-documents,
+.contact-info {
+  background-color: #ffffff;
+  border-radius: 8px;
+  width: 100%;
+}
+
+.cso-diagram {
+  text-align: left;
+  margin: 2rem 0;
+  margin-bottom: 0px;
+  background-color: #ffffff;
+  border-radius: 8px;
+}
+
+.cso-diagram img {
+  display: block;
+  border-radius: 8px;
+}
+
+.health-info p {
+  font-weight: 500;
+  color: #000000;
+  margin-bottom: 0px;
+}
+
+.useful-documents ul {
+  list-style: none;
+  padding: 0;
+}
+
+.useful-documents li {
+  margin-bottom: 0.75rem;
+  padding-left: 1.5rem;
+  position: relative;
+}
+
+.useful-documents li:before {
+  content: "📄";
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.contact-info {
+  background-color: #e0f2fe;
+  border-left-color: #0284c7;
+}
+
+.contact-info h2 {
+  color: #0284c7;
+  margin-top: 0;
+}
+
+p {
+  margin-bottom: 1rem;
+}
+
+a {
+  color: #0071bc;
+  text-decoration: underline;
+}
+
+a:hover {
+  color: #d72524;
+  text-decoration: none;
+}
+
+ul {
+  margin-bottom: 1rem;
+  padding-left: 2rem;
+}
+
+li {
+  margin-bottom: 0.5rem;
+}
+
+/* Map and table styles from original */
+#cso-map {
+  margin: 2rem 0;
+}
+
+.table-wrapper {
+  margin: 2rem 0;
+  overflow-x: auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* CSO Control Plan Specific Styles */
+.cso-control-plan {
+  background: #f8f9fa;
+  margin: 2rem 0;
+}
+
+/* Tab Navigation Styles */
+.tab-navigation {
+  display: flex;
+  background: #ffffff;
+  margin: 2rem 0 0 0;
+  overflow-x: auto;
+}
+
+.tab-button {
+  flex: 1;
+  padding: 15px 20px;
+  background: #ffffff;
+  border: 1px solid #dee2e6;
+  border-bottom: none;
+  color: #000000;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  min-width: 120px;
+  border-bottom: 3px solid black;
+
+}
+
+
+.tab-button:hover {
+  background: #e9ecef;
+  color: #000000;
+}
+
+.tab-button.active {
+  background: #ffffff;
+  border: 3px solid #000000;
+  border-bottom: 0px;
+  font-weight: 700;
+}
+
+.tab-button.active:hover {
+  background: #ffffff;
+  color: #1e3a8a;
+}
+
+/* Tab Content Styles */
+.tab-content {
+  display: none;
+  background: #ffffff;
+  border-top: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+}
+
+.tab-content.active {
+  display: block;
+
+}
+
+.tab-content h2 {
+  margin-top: 0;
+  color: #1e3a8a;
+  border-bottom: 2px solid #e5e7eb;
+  padding-bottom: 0.8rem;
+  margin-bottom: 1.5rem;
+}
+
+.tab-content h4 {
+  color: #1e3a8a;
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* Schedule Content Styles */
+.schedule-content ul {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin: 1rem 0;
+  border-left: 4px solid #0071bc;
+}
+
+.schedule-content li {
+  margin-bottom: 0.8rem;
+  padding-left: 0.5rem;
+}
+
+/* Public Comments Content Styles */
+.public-comments-content {
+  background: #fff3cd;
+  border: 1px solid #ffeaa7;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin: 1rem 0;
+  padding: 15px;
+}
+
+/* Contact Content Styles */
+.contact-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.contact-section {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 1.5rem;
+  border-left: 4px solid #0071bc;
+}
+
+.contact-section h4 {
+  color: #1e3a8a;
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+}
+
+.planning-resources-table table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.planning-resources-table th,
+.planning-resources-table td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.planning-resources-table th {
+  background-color: #1e3a8a;
+  color: white;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.planning-resources-table tr:nth-child(even) {
+  background-color: #f8f9fa;
+}
+
+.planning-resources-table tr:hover {
+  background-color: #e3f2fd;
+}
+
+.planning-resources-table a {
+  color: #0071bc;
+  text-decoration: none;
+  word-break: break-all;
+}
+
+.planning-resources-table a:hover {
+  text-decoration: underline;
+}
+
+.partner-organizations ul {
+  list-style-type: none;
+  padding: 0;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.partner-organizations li {
+  padding: 1rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.partner-organizations li:last-child {
+  border-bottom: none;
+}
+
+.partner-organizations strong {
+  color: #1e3a8a;
+}
+
+.public-meetings {
+  background: white;
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.public-meetings h4 {
+  color: #000000;
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  border-left: 4px solid #0071bc;
+  padding-left: 1rem;
+}
+
+.public-meetings h4:first-child {
+  margin-top: 0;
+}
+
+.project-updates {
+  background: #fff3cd;
+  border: 1px solid #ffeaa7;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+}
+
+.project-updates h4 {
+  color: #856404;
+  margin-bottom: 1rem;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .container {
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+
+  h2 {
+    font-size: 1.2rem;
+  }
+
+  .cso-intro,
+  .cso-action,
+  .cso-completed,
+  .sewer-systems,
+  .health-info,
+  .cso-reporting,
+  .useful-documents,
+  .contact-info,
+  .cso-control-plan,
+  .public-meetings,
+  .project-updates,
+  .tab-content {
+    padding: 1rem;
+  }
+
+  .planning-resources-table,
+  .partner-organizations {
+    overflow-x: auto;
+  }
+
+  .planning-resources-table table {
+    min-width: 600px;
+  }
+
+  /* Mobile Tab Navigation */
+  .tab-navigation {
+    flex-wrap: nowrap;
+    overflow-x: scroll;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .tab-navigation::-webkit-scrollbar {
+    display: none;
+  }
+
+  .tab-button {
+    flex-shrink: 0;
+    min-width: 100px;
+    padding: 12px 16px;
+    font-size: 0.9rem;
+  }
+
+  .contact-content {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .contact-section {
+    padding: 1rem;
+  }
+}
