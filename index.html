@@ -53,13 +53,25 @@
     <link rel="stylesheet" href="cambridge-styles.css" />
   </head>
   <body>
-    <!-- Disclaimer Banner -->
+    <!-- Password Overlay -->
+    <div id="password-overlay" style="position: fixed; z-index: 9999; top: 0; left: 0; width: 100vw; height: 100vh; background: rgb(44, 62, 80); display: flex; align-items: center; justify-content: center;">
+      <div style="background: #fff; border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.25); padding: 40px 32px; min-width: 320px; max-width: 90vw; text-align: center;">
+        <h2 style="margin-bottom: 18px; font-size: 2em; color: #2c3e50; font-family: 'Inter', 'Aktiv Grotesk Regular', Arial, sans-serif;">Access Required</h2>
+        <p style="margin-bottom: 18px; color: #444; font-size: 1.1em;">Please enter the password to view this mockup website.</p>
+  <input id="password-input" type="password" placeholder="Password" style="font-size: 1.2em; padding: 10px 16px; border-radius: 6px; border: 1px solid #ccc; width: 80%; max-width: 300px; margin-bottom: 16px;" autofocus onkeydown="if(event.key==='Enter'){checkPassword();}" />
+        <br />
+        <button onclick="checkPassword()" style="font-size: 1.1em; padding: 10px 32px; border-radius: 6px; background: #3d5a99; color: #fff; border: none; font-weight: bold; cursor: pointer;">Enter</button>
+        <div id="password-error" style="color: #d9534f; margin-top: 14px; font-size: 1em; display: none;">Incorrect password. Please try again.</div>
+      </div>
+    </div>
+  <div id="main-content-wrapper" style="display: none;">
+  <!-- Disclaimer Banner -->
     <div style="background: #fff3cd; color: #856404; border-bottom: 2px solid #ffeeba; padding: 10px 10px 10px 10px; text-align: center; font-family: 'Inter', 'Aktiv Grotesk Regular', Arial, sans-serif;">
       <span style="display: block; font-size: 1.2em; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 3px;">Disclaimer</span>
       <span style="display: block; font-size: 1em; font-weight: 500; ">
         This website is a <span style="background: #ffeeba; ; font-weight: bold;">mockup</span> for demonstration purposes only
       </span>
-      <span style="display: block; font-size: 1em; font-weight: 400;">
+      <span style="display: block; font-size: 1em; font-weight: 400;" >
         Created by WPI Team:<br>
         <span style="font-weight: 500;">Nathan Ehmer, John Porter, Andrey Sargsyan, Tran Minh Duc Nguyen</span>
       </span>
@@ -788,7 +800,7 @@
         }
 
         // Watch for section visibility changes
-        const observer = new MutationObserver(function (mutations) {
+  const sectionObserver = new MutationObserver(function (mutations) {
           mutations.forEach(function (mutation) {
             if (
               mutation.target.id === "section-1" &&
@@ -803,7 +815,7 @@
         document.addEventListener("DOMContentLoaded", function () {
           const section1 = document.getElementById("section-1");
           if (section1) {
-            observer.observe(section1, {
+            sectionObserver.observe(section1, {
               attributes: true,
               attributeFilter: ["class"],
             });
@@ -2565,4 +2577,42 @@
     <br />
     <br />
   </body>
+    <script>
+      // Hide all main content until password is entered
+      document.getElementById('main-content-wrapper').appendChild(document.getElementById('disclaimer-banner'));
+      document.getElementById('main-content-wrapper').appendChild(document.getElementById('main-container'));
+      function showMainContent() {
+        document.getElementById('main-content-wrapper').style.display = '';
+      }
+      function checkPassword() {
+        var input = document.getElementById('password-input').value;
+        var error = document.getElementById('password-error');
+        if (input === 'wpicso2025') {
+          document.getElementById('password-overlay').style.display = 'none';
+          showMainContent();
+        } else {
+          error.style.display = 'block';
+        }
+      }
+      document.getElementById('password-input').addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+          checkPassword();
+        }
+      });
+      // Prevent scrolling/interacting with page until unlocked
+      document.body.style.overflow = 'hidden';
+      function unlockPage() {
+        document.body.style.overflow = '';
+      }
+      document.getElementById('password-overlay').addEventListener('transitionend', unlockPage);
+      // Also unlock when overlay is hidden
+      var observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(m) {
+          if (document.getElementById('password-overlay').style.display === 'none') {
+            unlockPage();
+          }
+        });
+      });
+      observer.observe(document.getElementById('password-overlay'), { attributes: true });
+    </script>
 </html>
